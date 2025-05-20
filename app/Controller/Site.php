@@ -12,8 +12,8 @@ class Site
 {
     public function index(Request $request): string
     {
-        $posts = Post::where('id', $request->id)->get();
-        return (new View())->render('site.post', ['posts' => $posts]);
+        $books = Post::where('id', $request->id)->get();
+        return (new View())->render('site.post', ['books' => $books]);
     }
 
     public function hello(): string
@@ -37,7 +37,16 @@ class Site
         if (Auth::attempt($request->all())) {
             app()->route->redirect('/hello');
         }
+
+        if(Auth::attempt($request->all()) && role_id == 1){
+            app()->route->redirect('/admin-panel');
+        }
         return new View('site.login', ['message' => 'Неправильные логин или пароль']);
+    }
+
+    public function admin(): string
+    {
+        return new View('site.admin-panel', ['message' => 'hello admen']);
     }
 
     public function logout(): void
