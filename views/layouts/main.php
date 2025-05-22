@@ -9,20 +9,33 @@
 </head>
 <body>
 <header>
-<!--    <nav>-->
-<!--        <a href="--><?php //= app()->route->getUrl('/hello') ?><!--">Главная</a>-->
-<!--        --><?php
-//        if (!app()->auth::check()):
-//            ?>
-<!--            <a href="--><?php //= app()->route->getUrl('/login') ?><!--">Вход</a>-->
-<!--        --><?php
-//        else:
-//            ?>
-<!--            <a href="--><?php //= app()->route->getUrl('/logout') ?><!--">Выход (--><?php //= app()->auth::user()->name ?><!--)</a>-->
-<!--        --><?php
-//        endif;
-//        ?>
-<!--    </nav>-->
+    <nav>
+        <a href="<?= app()->route->getUrl('/hello') ?>">Главная</a>
+        <?php
+        if (!app()->auth::check()):
+            ?>
+            <a href="<?= app()->route->getUrl('/login') ?>">Вход</a>
+        <?php
+        else:
+            if (app()->auth::user()->role_id === 1):
+                ?>
+                <a href="<?= app()->route->getUrl('/admin-panel') ?>">Админ-панель</a>
+            <?php
+            endif;
+            ?>
+            <?php
+            if (app()->auth::user()->role_id === 2):
+                ?>
+                <a href="<?= app()->route->getUrl('/librarian-panel') ?>">Панель бибилиотекаря</a>
+            <?php
+            endif;
+            ?>
+
+            <a href="<?= app()->route->getUrl('/logout') ?>">Выход (<?= app()->auth::user()->login ?>)</a>
+        <?php
+        endif;
+        ?>
+    </nav>
 </header>
 <main>
     <?= $content ?? '' ?>

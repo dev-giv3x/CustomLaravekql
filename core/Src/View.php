@@ -46,7 +46,6 @@ class View
 
             extract($data, EXTR_PREFIX_SAME, '');
 
-            //Включение буферизации вывода
             ob_start();
             require $path;
             $content = ob_get_clean();
