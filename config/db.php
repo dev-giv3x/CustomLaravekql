@@ -1,10 +1,10 @@
 <?php
 return [
     'driver' => 'mysql',
-    'host' => 'localhost',
+    'host' => '127.127.126.5',
     'database' => 'ygcpsant_m6',
-    'username' => 'ygcpsant',
-    'password' => 'j2E5eM',
+    'username' => 'root',
+    'password' => '',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix' => '',

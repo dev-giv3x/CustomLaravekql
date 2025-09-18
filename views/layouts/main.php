@@ -38,8 +38,7 @@
     </nav>
 </header>
 <main>
-    <?= $content ?? '' ?>
+    <?= $content ?>
 </main>
-
 </body>
 </html>
