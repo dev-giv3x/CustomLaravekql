@@ -1,0 +1,49 @@
+
+form.issue-book-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+form.issue-book-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+form.issue-book-form select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fff;
+    color: #2c3e50;
+}
+
+form.issue-book-form select:focus {
+    border-color: #2980b9;
+    outline: none;
+    box-shadow: 0 0 3px rgba(41, 128, 185, 0.5);
+}
+
+form.issue-book-form button {
+    display: inline-block;
+    background-color: #27ae60;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form.issue-book-form button:hover {
+    background-color: #2ecc71;
+}

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="../public/css/add_reader.css">
+
 <h2>Добавление читателя</h2>
 <h3><?= $message ?? ''; ?></h3>
 

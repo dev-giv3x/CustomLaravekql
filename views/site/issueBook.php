@@ -1,11 +1,14 @@
+<link rel="stylesheet" href="../public/css/issue_book.css">
+
 <h2>Выдача книг</h2>
 <h3><?= $message ?? ''; ?></h3>
 
-<form method="POST">
+<form method="POST" class="issue-book-form">
     <label for="book_id">Выберите книгу</label>
     <select name="book_id" id="book_id" required>
+        <option>---выберите книгу---</option>
         <?php foreach ($books as $book): ?>
-            <option value="<?= $book->id ?>"><?= htmlspecialchars($book->name) ?></option>
+            <option value="<?= $book->id ?>"><?= htmlspecialchars($book->title) ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -18,4 +21,5 @@
 
     <button type="submit">Выдать книгу</button>
 </form>
+
 <div class="footer">Библиотечная система &copy; 20254</div>

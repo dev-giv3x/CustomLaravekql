@@ -1,4 +1,13 @@
+<!--<link rel="stylesheet" href="../public/css/librarian_panel.css">-->
+
 <h1>Панель Библиотекаря</h1>
+
+    <?php if (app()->auth::user()->role_id === 2): ?>
+        <a href="<?= app()->route->getUrl('/librarian-panel/add-book') ?>">Добавить книгу</a>
+        <a href="<?= app()->route->getUrl('/librarian-panel/add-reader') ?>">Добавить читателя</a>
+        <a href="<?= app()->route->getUrl('/librarian-panel/issue-book') ?>">Выдать книгу</a>
+        <a href="<?= app()->route->getUrl('/librarian-panel/return-book') ?>">Принять книгу</a>
+    <?php endif; ?>
 
 <h3>Список читателей:</h3>
 <ol>
@@ -28,9 +37,9 @@
 
 <h3>Список взятых книг:</h3>
 <?php foreach ($borrowedBooks as $b): ?>
-    <li>
+    <ol>
         <?= htmlspecialchars($b->book->title ?? 'Неизвестная книга') ?> —
         взял <?= htmlspecialchars($b->reader->user->login ?? 'Неизвестный пользователь') ?>
          <?= htmlspecialchars($b->date_issue) ?>
-    </li>
+    </ol>
 <?php endforeach; ?>

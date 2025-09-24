@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="../public/css/add_book.css">
+
 <h2>Добавление книги</h2>
 <h3><?= $message ?? ''; ?></h3>
 

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="../public/css/login.css">
+
 <h2>Авторизация</h2>
 <h3><?= $message ?? ''; ?></h3>
 

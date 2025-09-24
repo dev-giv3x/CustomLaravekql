@@ -21,7 +21,7 @@ class Site
 
     public function hello(): string
     {
-        return new View('site.hello', ['message' => 'Для получения доступа к функционалу - обратитесь к библиотекарю']);
+        return new View('site.hello', ['message' => 'Добро пожаловать в библиотечную систему.']);
     }
 
     public function signup(Request $request): string 
@@ -66,7 +66,7 @@ class Site
 
         $books = Book::pluck('title')->toArray();
 
-        $borrowedBooks = BorrowedBook::with(['book', 'reader.user'])->get();
+        $borrowedBooks = BorrowedBook::with(['book', 'reader.user'])->whereNull('date_return')->get();
 
 
         if ($roleId !== 2) {
@@ -134,8 +134,9 @@ class Site
     }
 
     public function issueBook(Request $request): string{
-        $books = Book::get(['title']);
+        $books = Book::get(['id','title']);
         $users = User::where('role_id', 3)->get();
+//        var_dump($request->all());
 
         if ($request->method === 'POST') {
             $bookId = (int)$_POST['book_id'];
@@ -154,7 +155,56 @@ class Site
         }
 
         return new View('site.issueBook', ['books' => $books, 'users' => $users]);
+    }
 
+    public function returnBook(Request $request): string
+    {
+        $users = User::where('role_id', 3)->get();
+
+        $activeUsers = [];
+
+        foreach ($users as $user) {
+            $reader = Reader::where('user_id', $user->id)->first();
+            if (!$reader) continue;
+
+            $borrowed = BorrowedBook::where('book_id', $reader->id)->whereNull('date_return')->get();
+
+            if(count ($borrowed) > 0) {
+                    $activeUsers[] = $user;
+                }
+
+        }
+
+        return new View('site.returnBook', ['users'=>$users]);
+    }
+
+    public function checkBorrowedBooks(): string
+    {
+
+        $uri = $_SERVER['REQUEST_URI'];
+        $parts = explode('/', trim($uri, '/'));
+        $userId = isset($parts[3]) ? (int)$parts[3] : null;
+
+        $reader = Reader::where('user_id', $userId)->first();
+        $books = [];
+
+        if ($reader) {
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_id'])) {
+                $bookId = (int)$_POST['book_id'];
+
+                $borrow = BorrowedBook::where('reader_id', $reader->id)->where('book_id', $bookId)->whereNull('date_return')->first();
+
+                if ($borrow) {
+                    $borrow->date_return = date('Y-m-d');
+                    $borrow->save();
+                }
+            }
+
+            $books = BorrowedBook::where('reader_id', $reader->id)->whereNull('date_return')->get();
+        }
+
+        return new View('site.checkBorrowedBooks', ['books'=>$books,'userId'=>$userId]);
     }
 
     public function logout(): void

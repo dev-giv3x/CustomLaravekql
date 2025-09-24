@@ -24,9 +24,4 @@ class Reader extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function borrowedBooks()
-    {
-        return $this->hasMany(BorrowedBook::class, 'readers_id');
-    }
 }

@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+header {
+    background-color: #34495e;
+    padding: 10px 20px;
+}
+
+nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+}
+
+ul, ol {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+li {
+    padding: 5px 0;
+}
+
+p {
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+.librarian-actions {
+    margin-bottom: 20px;
+}
+
+.librarian-actions a {
+    display: inline-block;
+    background-color: #2980b9;
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.librarian-actions a:hover {
+    background-color: #3498db;
+}
