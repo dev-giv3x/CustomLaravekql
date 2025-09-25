@@ -19,7 +19,11 @@
     "autoload": {
         "psr-4": {
             "Src\\": "core/Src/",
-            "": "app/"
+            "": "app/",
+          "Tests\\": "tests/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.4@dev"
     }
 }

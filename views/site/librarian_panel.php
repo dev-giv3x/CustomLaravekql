@@ -7,6 +7,9 @@
         <a href="<?= app()->route->getUrl('/librarian-panel/add-reader') ?>">Добавить читателя</a>
         <a href="<?= app()->route->getUrl('/librarian-panel/issue-book') ?>">Выдать книгу</a>
         <a href="<?= app()->route->getUrl('/librarian-panel/return-book') ?>">Принять книгу</a>
+        <a href="<?= app()->route->getUrl('/librarian-panel/log') ?>">Выписка взятых книг</a>
+        <a href="<?= app()->route->getUrl('/librarian-panel/readers/borrowed-book') ?>">История выдач</a>
+        <a href="<?= app()->route->getUrl('/librarian-panel/popular-books') ?>">Популярные книги</a>
     <?php endif; ?>
 
 <h3>Список читателей:</h3>

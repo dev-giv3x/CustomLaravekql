@@ -1,4 +1,9 @@
+
 <h1>Админ Панель</h1>
+
+<?php if (app()->auth::user()->role_id === 1): ?>
+    <a href="<?= app()->route->getUrl('/admin-panel/add-librarian') ?>">Выдать роль пользователю</a>
+<?php endif; ?>
 
 <h3>Список библиотекарей:</h3>
 <ol>

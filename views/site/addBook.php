@@ -4,21 +4,22 @@
 <h3><?= $message ?? ''; ?></h3>
 
 <form method="post">
+    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
     <div class="form-group">
         <label for="title">Название книги</label>
-        <input type="text" id="title" name="title" required>
+        <input type="text" id="title" name="title" >
     </div>
     <div class="form-group">
         <label for="author">Автор книги</label>
-        <input type="text" id="author" name="author" required>
+        <input type="text" id="author" name="author" >
     </div>
     <div class="form-group">
         <label for="year_public">Дата издания</label>
-        <input type="text" id="year_public" name="year_public" required>
+        <input type="text" id="year_public" name="year_public" >
     </div>
     <div class="form-group">
         <label for="price">Цена</label>
-        <input type="text" id="price" name="price" required>
+        <input type="text" id="price" name="price" >
     </div>
     <div class="form-group">
         <label for="isNew">Новая?</label>
@@ -26,7 +27,7 @@
     </div>
     <div class="form-group">
         <label for="description">Описание</label>
-        <input type="text" id="description" name="description" required>
+        <input type="text" id="description" name="description" >
     </div>
     <button type="submit" class="btn-login">Добавить</button>
 </form>

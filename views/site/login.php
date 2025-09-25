@@ -4,13 +4,14 @@
 <h3><?= $message ?? ''; ?></h3>
 
     <form method="post">
+        <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
         <div class="form-group">
             <label for="login">Логин</label>
-            <input type="text" id="login" name="login" required>
+            <input type="text" id="login" name="login">
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password">
         </div>
         <button type="submit" class="btn-login">Войти</button>
     </form>

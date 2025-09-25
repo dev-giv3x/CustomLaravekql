@@ -5,6 +5,7 @@
             <li>
                 <?= htmlspecialchars($borrow->book->title) ?>
                 <form method="POST" action="/librarian-panel/return-book/user/<?= $userId ?>" style="display:inline;">
+                    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
                     <input type="hidden" name="book_id" value="<?= $borrow->book_id ?>">
                     <button type="submit">Принять</button>
                 </form>

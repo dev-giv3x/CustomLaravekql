@@ -24,8 +24,8 @@ class View
         $root = $app->settings->getRootPath();
         $path = $app->settings->getViewsPath();
 
-//         return $_SERVER['DOCUMENT_ROOT'] . $root . $path;
-        return dirname(__DIR__, 2) . '/views';
+         return $_SERVER['DOCUMENT_ROOT'] . $root . $path;
+//        return dirname(__DIR__, 2) . '/views';
     }
 
     private function getPathToMain(): string

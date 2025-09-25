@@ -4,6 +4,7 @@
 <h3><?= $message ?? ''; ?></h3>
 
 <form method="POST" class="issue-book-form">
+    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
     <label for="book_id">Выберите книгу</label>
     <select name="book_id" id="book_id" required>
         <option>---выберите книгу---</option>

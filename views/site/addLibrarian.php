@@ -1,7 +1,10 @@
+<link rel="stylesheet" href="../public/css/add_librarian.css">
+
 <h2>Выдача ролей</h2>
 <h3><?= $message ?? ''; ?></h3>
 
 <form method="post">
+    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
     <label for="user_id">Выберите пользователя</label>
     <select name="user_id" id="user_id" required>
         <?php foreach ($users as $user): ?>
