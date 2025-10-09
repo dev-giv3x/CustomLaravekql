@@ -3,7 +3,7 @@
 use Src\Route;
 
 // дефолтныке
-Route::add('GET', '/hello', [Controller\Site::class, 'hello'])->middleware('auth');
+Route::add('GET', '/', [Controller\Site::class, 'index'])->middleware('auth');
 Route::add(['GET', 'POST'], '/signup', [Controller\Site::class, 'signup']);
 Route::add(['GET', 'POST'], '/login', [Controller\Site::class, 'login']);
 Route::add('GET', '/logout', [Controller\Site::class, 'logout']);
@@ -14,6 +14,7 @@ Route::add(['GET', 'POST'], '/admin-panel/add-librarian', [Controller\AdminContr
 
 // библиотекрь и прочие
 Route::add('GET', '/librarian-panel', [Controller\LibrarianController::class, 'librarian'])->middleware('auth');
+Route::add('GET', '/books/{id}', [Controller\Site::class, 'show'])->middleware('auth');
 Route::add(['GET', 'POST'], '/librarian-panel/add-book', [Controller\LibrarianController::class, 'addBook'])->middleware('auth');
 Route::add(['GET', 'POST'], '/librarian-panel/add-reader', [Controller\LibrarianController::class, 'addReader'])->middleware('auth');
 Route::add(['GET', 'POST'], '/librarian-panel/issue-book', [Controller\LibrarianController::class, 'issueBook'])->middleware('auth');

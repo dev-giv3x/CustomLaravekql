@@ -1,7 +1,12 @@
 <link rel="stylesheet" href="../public/css/signup.css">
 
 <h2>Регистрация нового пользователя</h2>
-<h3><?= $message ?? ''; ?></h3>
+
+<?php if (!empty($message)): ?>
+    <div style="color: red; margin-bottom: 10px;">
+        <?= htmlspecialchars($message) ?>
+    </div>
+<?php endif; ?>
 
 <form method="post">
     <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>

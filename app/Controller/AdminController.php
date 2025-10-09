@@ -19,7 +19,7 @@ class AdminController
 //        print_r($users);
 
         if ($roleId !== 1) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         return (new View())->render('site.admin_panel', ['users' => $users]);
@@ -40,11 +40,10 @@ class AdminController
                 $user->role_id = $roleId;
                 $user->save();
             }
-            app()->route->redirect('/hello');
 
         }
         if ($roleId !== 1) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         return new View('site.addLibrarian', ['users' => $users, 'roles' => $roles]);

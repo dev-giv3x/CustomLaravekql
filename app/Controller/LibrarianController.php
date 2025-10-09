@@ -25,7 +25,7 @@ class LibrarianController
 
 
         if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         return new View('site.librarian_panel', ['users' => $users, 'books' => $books, 'borrowedBooks' => $borrowedBooks] );
@@ -36,10 +36,16 @@ class LibrarianController
         $user = Auth::user();
         $roleId = (int)$user->role_id;
 
+        if ($roleId !== 2) {
+            return new View('site.addBook', [
+                'message' => 'У вас нет прав для добавления книги'
+            ]);
+        }
+
         if ($request->method === 'POST') {
 
             $validator = new Validator($request->all(), [
-                'title' => ['required' ],
+                'title' => ['required'],
                 'author' => ['required'],
                 'year_public' => ['required', 'regex:/^\d{4}$/'],
                 'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
@@ -51,21 +57,43 @@ class LibrarianController
             ]);
 
             if ($validator->fails()) {
+                $errors = $validator->errors();
+                $firstMessage = '';
+
+                foreach ($errors as $fieldErrors) {
+                    if (!empty($fieldErrors)) {
+                        $firstMessage = $fieldErrors[0];
+                        break;
+                    }
+                }
+
                 return new View('site.addBook', [
-                    'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)
+                    'message' => $firstMessage
                 ]);
             }
-            if(Book::create($request->all())){
-                app()->route->redirect('/hello');
-            }
-        }
 
-        if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            $data = $request->all();
+
+            if (!empty($data['image']['tmp_name'])) {
+                $file = $data['image'];
+                $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+
+                if (in_array($file['type'], $allowed)) {
+                    $uploadDir = __DIR__ . '/../../public/images/';
+                    $filename = uniqid() . '_' . basename($file['name']);
+                    move_uploaded_file($file['tmp_name'], $uploadDir . $filename);
+                    $data['image_path'] = '/images/' . $filename;
+                }
+            }
+
+            $message = Book::create($data) ? 'Книга успешно создана!' : 'Ошибка при создании книги';
+
+            return new View('site.addBook', ['message' => $message]);
         }
 
         return new View('site.addBook');
     }
+
 
     public function addReader(Request $request): string
     {
@@ -89,8 +117,19 @@ class LibrarianController
             ]);
 
             if ($validator->fails()) {
+                $errors = $validator->errors();
+                $firstMessage = '';
+
+                foreach ($errors as $fieldErrors) {
+                    if (!empty($fieldErrors)) {
+                        $firstMessage = $fieldErrors[0];
+                        break;
+                    }
+                }
+
                 return new View('site.addReader', [
-                    'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)
+                    'users' => $users,
+                    'message' => $firstMessage
                 ]);
             }
             $data = $request->all();
@@ -103,13 +142,11 @@ class LibrarianController
                     $userToUpdate->role_id = 3;
                     $userToUpdate->save();
                 }
-
-                app()->route->redirect('/hello');
             }
         }
 
         if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         return new View('site.addReader', ['users' => $users]);
@@ -123,7 +160,7 @@ class LibrarianController
 //        var_dump($request->all());
 
         if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         if ($request->method === 'POST') {
@@ -133,12 +170,19 @@ class LibrarianController
             $reader = Reader::where('user_id', $userId)->first();
 
             if ($reader) {
-                BorrowedBook::create([
-                    'book_id' => $bookId,
-                    'reader_id' => $reader->id,
-                    'date_issue' => date('Y-m-d H:i:s'),
-                    'date_return' => null
-                ]);
+                $alreadyIssued = BorrowedBook::where('book_id', $bookId)
+                    ->where('reader_id', $reader->id)
+                    ->whereNull('date_return')
+                    ->exists();
+
+                if (!$alreadyIssued) {
+                    BorrowedBook::create([
+                        'book_id' => $bookId,
+                        'reader_id' => $reader->id,
+                        'date_issue' => date('Y-m-d H:i:s'),
+                        'date_return' => null
+                    ]);
+                }
             }
         }
 
@@ -152,7 +196,7 @@ class LibrarianController
         $roleId = (int)$user->role_id;
 
         if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         $activeUsers = [];
@@ -184,7 +228,7 @@ class LibrarianController
         $roleId = (int)$user->role_id;
 
         if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         $books = [];
@@ -218,7 +262,7 @@ class LibrarianController
         $query = BorrowedBook::with(['book', 'reader.user'])->whereNull('date_return');
 
         if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         if ($request->method === 'POST') {
@@ -245,17 +289,16 @@ class LibrarianController
 
         $query = BorrowedBook::with(['reader.user'])->whereNotNull('date_return');
 
-        if ($roleId !== 2) {
-            app()->route->redirect('/hello');
-        }
-
-        if ($request->method === 'POST') {
+        if ($request->method === 'POST' && !empty($_POST['book_id'])) {
             $bookId = (int)$_POST['book_id'];
-            $query->where('book_id', $bookId);
+            $borrowedBooks = (clone $query)->where('book_id', $bookId)->get();
+        } else {
+            $borrowedBooks = $query->get();
         }
 
-        $borrowedBooks = $query->get();
-
+        if ($roleId !== 2) {
+            app()->route->redirect('/');
+        }
         return new View('site.readerWithBorrowedBook', ['borrowedBooks' => $borrowedBooks, 'bookId' => $bookId, 'books' => $books]);
     }
 
@@ -267,7 +310,7 @@ class LibrarianController
         $popularBooks = Book::withCount('borrowedBooks')->orderBydesc('borrowed_books_count')->take(10)->get();
 
         if ($roleId !== 2) {
-            app()->route->redirect('/hello');
+            app()->route->redirect('/');
         }
 
         return new View('site.popularBooks', ['popularBooks' => $popularBooks]);

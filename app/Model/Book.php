@@ -17,7 +17,8 @@ class Book extends Model
         'year_public',
         'price',
         'is_new',
-        'description'
+        'description',
+        'image_path'
     ];
 
     public function borrowedBooks()

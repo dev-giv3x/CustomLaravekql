@@ -23,4 +23,4 @@
     <button type="submit">Выдать книгу</button>
 </form>
 
-<div class="footer">Библиотечная система &copy; 20254</div>
+<div class="footer">Библиотечная система &copy; 2025</div>

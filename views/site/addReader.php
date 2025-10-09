@@ -1,7 +1,11 @@
 <link rel="stylesheet" href="../public/css/add_reader.css">
 
 <h2>Добавление читателя</h2>
-<h3><?= $message ?? ''; ?></h3>
+<?php if (!empty($message)): ?>
+    <div style="color: red; margin-bottom: 10px;">
+        <?= htmlspecialchars($message) ?>
+    </div>
+<?php endif; ?>
 
 <form method="post">
     <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
@@ -16,23 +20,23 @@
 
     <div class="form-group">
         <label for="ticket_number">Номер читательского билета</label>
-        <input type="text" id="ticket_number" name="ticket_number" required>
+        <input type="text" id="ticket_number" name="ticket_number" required >
     </div>
     <div class="form-group">
         <label for="firstname">Имя</label>
-        <input type="text" id="firstname" name="firstname" required>
+        <input type="text" id="firstname" name="firstname" required >
     </div>
     <div class="form-group">
         <label for="lastname">Фамилия</label>
-        <input type="text" id="lastname" name="lastname" required>
+        <input type="text" id="lastname" name="lastname" required >
     </div>
     <div class="form-group">
         <label for="patronomic">Отчество</label>
-        <input type="text" id="patronomic" name="patronomic" required>
+        <input type="text" id="patronomic" name="patronomic" required >
     </div>
     <div class="form-group">
         <label for="phone_number">Номер телефона</label>
-        <input type="text" id="phone_number" name="phone_number">
+        <input type="text" id="phone_number" name="phone_number" required>
     </div>
     <button type="submit" class="btn-login">Добавить</button>
 </form>
